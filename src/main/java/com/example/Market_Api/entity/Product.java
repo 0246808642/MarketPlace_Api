@@ -1,6 +1,7 @@
 package com.example.Market_Api.entity;
 
 import com.example.Market_Api.Enum.Specialty;
+import com.example.Market_Api.productDTO.DataRegistrationProduct;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,13 @@ public class Product {
 
     @Embedded
     private Supplier supplier;
+
+    public Product(DataRegistrationProduct data) {
+        this.name = data.name();
+        this.code = data.code();
+        this.amount = data.amount();
+        this.specialty = data.specialty();
+        this.supplier = new Supplier(data.supplier());
+
+    }
 }

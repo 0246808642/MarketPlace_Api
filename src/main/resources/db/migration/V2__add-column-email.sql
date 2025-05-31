@@ -1,0 +1,1 @@
+alter table products add email varchar(120) not null;
