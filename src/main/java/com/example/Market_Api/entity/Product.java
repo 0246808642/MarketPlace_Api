@@ -12,6 +12,25 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Product {
+    public String getAmount() {
+        return amount;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Specialty getSpecialty() {
+        return specialty;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,4 +52,6 @@ public class Product {
         this.supplier = new Supplier(data.supplier());
 
     }
+
+
 }
