@@ -3,6 +3,7 @@ package com.example.Market_Api.controllers;
 import com.example.Market_Api.entity.Product;
 import com.example.Market_Api.productDTO.DataGetProduct;
 import com.example.Market_Api.productDTO.DataRegistrationProduct;
+import com.example.Market_Api.productDTO.DataUpdateProduct;
 import com.example.Market_Api.repositories.ProductRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,27 @@ public class ProductController {
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody @Valid DataRegistrationProduct data){
+    public void register(@RequestBody @Valid DataRegistrationProduct data){
         repository.save(new Product(data));
     }
 
     @GetMapping
-    public Page<DataGetProduct> listar(@PageableDefault(size = 10,sort = {"name"}) Pageable pag){
-        return repository.findAll(pag).map(DataGetProduct::new);
+    public Page<DataGetProduct> list(@PageableDefault(size = 10,sort = {"name"}) Pageable pag){
+        return repository.findAllByActiveTrue(pag).map(DataGetProduct::new);
     }
 
+    @PutMapping
+    @Transactional
+    public void update(@RequestBody @Valid DataUpdateProduct data){
+        var product = repository.getReferenceById(data.id());
+        product.updateInfo(data);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void delete(@PathVariable Long id){
+        var product = repository.getReferenceById(id);
+        product.delete();
+    }
 
 }
